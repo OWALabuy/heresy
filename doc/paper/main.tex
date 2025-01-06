@@ -1,0 +1,241 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%论文模板来自https://zhuanlan.zhihu.com/p/496462136
+\documentclass[12pt,a4paper]{article}% 文档格式
+\usepackage{ctex,hyperref}% 输出汉字
+\usepackage{times}% 英文使用Times New Roman
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \title{\fontsize{18pt}{27pt}\selectfont% 小四字号，1.5倍行距
+% 	{\heiti% 黑体 
+% 		一种\LaTeX 模板}}% 题目
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \author{\fontsize{12pt}{18pt}\selectfont% 小四字号，1.5倍行距
+% 	{\fangsong% 仿宋
+% 		Evildoer}\thanks{向寝室大佬膜膜膜}\\% 标题栏脚注
+% 	\fontsize{10.5pt}{15.75pt}\selectfont% 五号字号，1.5倍行距
+% 	{\fangsong% 仿宋
+% 		(末流985~~~雾里咳血学院)}}% 作者单位，“~”表示空格
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \date{}% 日期（这里避免生成日期）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amsfonts,amssymb}% 为公式输入创造条件的宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}% 图片插入宏包
+\usepackage{subfigure}% 并排子图
+\usepackage{float}% 浮动环境，用于调整图片位置
+\usepackage[export]{adjustbox}% 防止过宽的图片
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{bibentry}
+\usepackage{natbib}% 以上2个为参考文献宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{abstract}% 两栏文档，一栏摘要及关键字宏包
+\renewcommand{\abstracttextfont}{\fangsong}% 摘要内容字体为仿宋
+\renewcommand{\abstractname}{\textbf{摘\quad 要}}% 更改摘要二字的样式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}% 字体颜色宏包
+\newcommand{\red}[1]{\textcolor[rgb]{1.00,0.00,0.00}{#1}}
+\newcommand{\blue}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\green}[1]{\textcolor[rgb]{0.00,1.00,0.00}{#1}}
+\newcommand{\darkblue}[1]
+{\textcolor[rgb]{0.00,0.00,0.50}{#1}} \newcommand{\darkgreen }[1]
+{\textcolor[rgb]{0.00,0.37,0.00}{#1}}
+\newcommand{\darkred}[1]{\textcolor[rgb]{0.60,0.00,0.00}{#1}}
+\newcommand{\brown}[1]{\textcolor[rgb]{0.50,0.30,0.00}{#1}}
+\newcommand{\purple}[1]{\textcolor[rgb]{0.50,0.00,0.50}{#1}}% 为使用方便而编辑的新指令
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url}% 超链接
+\usepackage{bm}% 加粗部分公式
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{longtable}% 长表格
+\usepackage{supertabular}% 跨页表格
+
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{changepage}% 换页
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumerate}% 短编号
+\usepackage{caption}% 设置标题
+\captionsetup[figure]{name=\fontsize{10pt}{15pt}\selectfont Figure}% 设置图片编号头
+\captionsetup[table]{name=\fontsize{10pt}{15pt}\selectfont Table}% 设置表格编号头
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{indentfirst}% 中文首行缩进
+\usepackage[left=2.50cm,right=2.50cm,top=2.80cm,bottom=2.50cm]{geometry}% 页边距设置
+\renewcommand{\baselinestretch}{1.5}% 定义行间距（1.5）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr} %设置全文页眉、页脚的格式
+\hypersetup{colorlinks=true,linkcolor=black}% 去除引用红框，改变颜色
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}% 以下为正文内容
+% \maketitle% 产生标题 标题我另外弄了 这些被注释掉的内容会在论文完成后被移除
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \lhead{}% 页眉左边设为空
+% \chead{}% 页眉中间设为空
+% \rhead{}% 页眉右边设为空
+% \lfoot{}% 页脚左边设为空
+% \cfoot{\thepage}% 页脚中间显示页码
+% \rfoot{}% 页脚右边设为空
+\pagestyle{fancy}%页眉页脚 启动!!!
+\fancyhf{} % 清空默认样式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}%当前页面 禁用页眉页脚
+\begin{center}
+	\includegraphics[width=15cm]{img/logo.png} % 插入学校标志图片
+	\vspace{0.5cm}
+
+	\Huge \textbf{本科生毕业设计(论文)}\\[2cm]
+
+	\LARGE \textbf{题目：Heresy-兼容多内核的网络代理线路管理与路由管理系统}\\[3cm]
+\end{center}
+
+\begin{flushleft}
+	\large
+	\begin{tabbing}
+		姓\hspace{1.5em}名：\hspace{1.5em} \= 欧阳闻奕  \\[0.5cm]
+		学\hspace{1.5em}号：\> 2022102069 \\[0.5cm]
+		学\hspace{1.5em}院：\> 计算机与信息技术学院 \\[0.5cm]
+		专业/届别：\> 软件工程/2026 届 \\[0.5cm]
+		指导教师：\> 丁蕊 \\[0.5cm]
+		职\hspace{1.5em}称：\> 副教授 \\[0.5cm]
+	\end{tabbing}
+\end{flushleft}
+
+\newpage
+
+% 独创性声明
+\thispagestyle{empty}%当前页面 禁用页眉页脚
+\begin{center}
+    \large \textbf{独创性声明}
+\end{center}
+
+\setlength{\parindent}{2em} % 设置段首缩进2字符
+\setlength{\parskip}{2em}  % 设置段间距
+{\fangsong % 在这个环境中使用仿宋字体
+本人郑重声明：所呈交的本科生毕业设计(论文)，是本人在导师的指导下，独立进行研究工作所取得的成果。除文中已经注明引用的内容外，本论文不含任何其他个人或集体已经发表或撰写过的研究成果。对本文的研究做出重要贡献的个人和集体，均已在文中以明确方式标明。本声明的法律结果由本人承担。
+
+\begin{flushright} % 设置右对齐环境
+本科生毕业设计(论文)作者签名:\\
+\vspace{1em} % 添加适当的空行 分隔签名和正文
+\includegraphics[width=4cm]{img/owalabuy_sign.png} \\ % 插入签名图片
+签字日期: 2025年1月5日
+\end{flushright}}
+
+\newpage
+
+\fancyhf{} % 清空默认样式
+\fancyhead[C]{牡丹江师范学院本科生毕业设计(论文)} % 从摘要开始定义页眉
+
+%摘要(中英文)
+\begin{abstract}
+    %摘要应该在论文完成后再写 以下仅为填充 到时候再认真写awa
+    %摘要的写作方法
+    %目的: 研究的对象 范围 目的
+    %方法: 采用了哪些手段 研究方法
+    %结果: 陈述论文研究结果 新见解等
+    %结论: 通过对问题的研究所得出的重要结论 主要观点 理论意义或实用价值等
+	\fangsong
+    网络代理是我们常用的反审查手段 目前主流的内核有xray-core v2ray-core sing-box hysteria2 clash等等 它们需要用户手动编写配置文件 较为麻烦且对用户的技术水平要求较高 所以代理线路管理软件出现了 在Windows平台和Android平台上有一些GUI客户端 如V2RayN/G Clash系 Surfboard 它们都是基于图形界面的 支持对机场\footnote{网络代理的线路供应商}的订阅链接进行解析 获取到链接中的节点\footnote{一个用于代理的服务器实例称为一个节点}信息 用户还可以手动添加节点 用户直接在GUI客户端中选择节点 进行连接
+\end{abstract}
+
+\begin{adjustwidth}{1.06cm}{1.06cm}
+    \fontsize{10.5pt}{15.75pt}\selectfont{\heiti{关键词：}\fangsong{网络代理；翻墙；节点；路由；机场订阅；反向代理；xray; proxy; hysteria2; C++; Qt}}\\
+\end{adjustwidth}
+
+%中文摘要与英文摘要之间要不要换页呢 到时候再说吧...
+\begin{center}% 居中处理
+	{\textbf{Abstract}}% 英文摘要
+\end{center}
+\begin{adjustwidth}{1.06cm}{1.06cm}% 英文摘要内容
+	\hspace{1.5em}Attention！If you input "dif{}ferent", the computer will output "different", but if you input "dif\{\}ferent", the computer will output "dif{}ferent"
+\end{adjustwidth}
+
+\newpage% 从新的一页继续
+
+%目录
+\tableofcontents
+\newpage
+
+% 正文内容
+\fancyfoot[C]{\thepage} % 页脚中间显示页码
+\pagenumbering{arabic} % 重置页码为阿拉伯数字
+\setcounter{page}{1} % 从第 1 页开始计数
+
+\section{系统概述}
+\subsection{概述}
+\subsection{课题意义}
+\subsection{主要内容}
+
+\newpage
+
+\section{系统开发环境}
+\subsection{GNU/Linux系统}
+\subsection{C++语言}
+\subsection{Vim编辑器}
+\subsection{Qt框架}
+\subsection{Sqlite3数据库}
+
+\newpage
+
+\section{系统分析}
+\subsection{可行性分析}
+\subsection{需求分析}
+\subsection{性能分析}
+
+\newpage
+
+\section{系统设计}
+\subsection{系统架构}
+\subsection{系统E-R图}
+\subsection{数据库设计}
+\subsubsection{数据库实体}
+\subsubsection{数据库设计表}
+
+\newpage
+
+\section{详细设计与实现}
+
+\newpage
+
+\section{系统测试}
+\subsection{系统测试的目的与方法}
+\subsection{测试用例与结果}
+\subsection{测试总结}
+
+% 总结
+\section*{总结}%无编号章节
+\addcontentsline{toc}{section}{总结} % 添加到目录
+总结内容写在这里。
+
+% 致谢
+\section*{致谢}
+\addcontentsline{toc}{section}{致谢} % 添加到目录
+致谢内容写在这里。
+
+%\section{摆烂二阶段}
+%\subsection{摆的理论基础}
+%\subsubsection{Evildoer的摆理论}
+%大本钟下寄快递，上面开摆下面寄
+%\subsubsection{摆理论的完善与发展}
+%\subsection{摆的实际应用}
+%\begin{enumerate}[1.]% 列举时编号
+%	\item 啊对
+%	      \begin{enumerate}[(a)]% 次级序号
+%		      \item 太对辣
+%		      \item 好对捏
+%	      \end{enumerate}
+%	\item 啊对对
+%	\item 啊对对对\footnote{变成光守护麻衣学姐}% 脚注
+%\end{enumerate}
+%
+%\section{摆烂三阶段}
+%至臻无双
+%
+\newpage
+\begin{thebibliography}{99}% 参考文献，{}内表示序号最大位数（两位）
+	\bibitem{ref1}Evildoer. 开摆的深刻内涵[J]. 大学物理, 11.4(2022):1-4.
+	\bibitem{ref2}Propht Joseph. 摆王的自我修养[M]. Supercell出版社, 01(2333):-2-$-\infty$.
+\end{thebibliography}
+\end{document}

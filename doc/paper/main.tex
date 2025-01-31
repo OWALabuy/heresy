@@ -88,7 +88,10 @@
 
 	\Huge \textbf{本科生毕业设计(论文)}\\[2cm]
 
-	\LARGE \textbf{题目：Heresy——基于Xray-Core的多功能网络代理与服务管理系统研究与实现}\\[3cm]
+    % 不行...我还是要改改这个论文的题目 反正是面向配置文件开发的 还是只追求像v2rayn一样的就好了吧 其他平台有v2rayn/g 那我就只做linux平台 给自己用就好了（也可以移植到其他平台上喵）
+    %到时候看看什么情况吧
+	%\LARGE \textbf{题目：Heresy——基于Xray-Core的多功能网络代理与服务管理系统研究与实现}\\[3cm]
+	\LARGE \textbf{题目：Heresy——GNU/Linux上的Xray-Core的CUI和GUI客户端}\\[3cm]
 \end{center}
 
 \begin{flushleft}
@@ -172,7 +175,7 @@ Xray-Core是Project X旗下的网络流量管理的核心工具，主要负责�
 在配置Xray-Core时，用户需要手动编辑配置文件，尤其在GNU/Linux系统上的网络代理和各系统平台上的反向代理和服务管理这些使用场景中。Xray-Core的配置较为复杂且容易出错，效率较低，有一定的学习曲线。开发针对Xray-Core的管理系统已经成为必要且紧迫的事情。借助本系统对Xray-Core的配置文件进行编写，可以方便地实现代理客户端、代理节点服务端、路由规则自定义、内网穿透的Bridge与Portal、本机服务分流等功能，为用户带来更多的便利。
 
 \subsection{课题意义}
-在各大主流的系统平台上，出现了一些兼容Xray-Core的代理线路管理软件，如V2rayN(Windows平台)，V2RayNG(Android平台)，它们有易于上手的图形界面。 这些客户端的出现很大程度改善了该平台网络代理的入门难度，但它们基本只有代理线路管理功能，没有完善的路由管理功能和其他的配置功能，路由策略几乎只有预设的几套，没有技术基础的用户也无法自定义自己的路由策略，难以充分发挥出Xray-Core等内核强大的网络流量管理功能。Xray-Core的高级功能大多在GNU/Linux平台上使用，而当前主流的软件大多不支持这些功能，也不支持GNU/Linux系统。
+在各大主流的系统平台上，出现了一些兼容Xray-Core的代理线路管理软件，如V2rayN(Windows平台)，V2RayNG(Android平台)，它们有易于上手的图形界面。 这些客户端的出现很大程度改善了该平台网络代理的入门难度，但它们基本只有代理线路管理功能，没有完善的路由管理功能和其他的配置功能，路由策略几乎只有预设的几套，没有技术基础的用户也无法自定义自己的路由策略，难以充分发挥出Xray-Core等内核强大的网络流量管理功能。当前主流的软件大多不支持GNU/Linux系统。
 
 Heresy是一个基于Xray-Core的多功能网络代理与服务管理系统，它通过与Xray-Core的配置文件交互，提供网络代理线路管理功能、内网穿透管理功能（Bridge与Portal)，路由策略管理功能，本机服务分流功能。它专为GNU/Linux系统而作，能填补Linux系统上Xray-Core管理软件的空缺。
 
@@ -208,6 +211,11 @@ Heresy采用GNU通用公共许可证（GPL），作为一个自由且开放源�
 
 \section{系统分析}
 \subsection{可行性分析}
+\begin{enumerate}[1)]
+    \item 技术可行性分析
+        Heresy是通过
+\end{enumerate}
+
 \subsection{需求分析}
 \subsection{性能分析}
 

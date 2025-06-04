@@ -20,12 +20,12 @@ class Node {
          std::string info);
 
     // getter和setter
-    int getId(void);
-    std::string getProtocol(void);
-    std::string getUuid(void);
-    std::string getAddr(void);
-    int getPort(void);
-    std::string getInfo(void);
+    int getId(void) const;
+    std::string getProtocol(void) const;
+    std::string getUuid(void) const;
+    std::string getAddr(void) const;
+    int getPort(void) const;
+    std::string getInfo(void) const;
     void setId(int id);
     void setProtocol(std::string protocol);
     void setAddr(std::string addr);

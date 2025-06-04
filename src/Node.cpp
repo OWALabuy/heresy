@@ -11,22 +11,22 @@ Node::Node(std::string protocol, std::string uuid, std::string addr, int port,
     : protocol(protocol), uuid(uuid), addr(addr), port(port), info(info) {}
 
 //getter和setter
-    int Node::getId(void){
+    int Node::getId(void) const {
         return id;
     }
-    std::string Node::getProtocol(void){
+    std::string Node::getProtocol(void) const {
         return protocol;
     }
-    std::string Node::getUuid(void){
+    std::string Node::getUuid(void) const {
         return uuid;
     }
-    std::string Node::getAddr(void){
+    std::string Node::getAddr(void) const {
         return addr;
     }
-    int Node::getPort(void){
+    int Node::getPort(void) const {
         return port;
     }
-    std::string Node::getInfo(void){
+    std::string Node::getInfo(void) const {
         return info;
     }
     void Node::setId(int id){

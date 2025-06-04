@@ -9,6 +9,7 @@
 #include "VmessNode.h"
 #include "TrojanNode.h"
 #include "Hy2Node.h"
+#include "DatabaseManager.h"
 
 #ifdef _WIN32
 #include <windows.h>

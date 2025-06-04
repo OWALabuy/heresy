@@ -1,6 +1,34 @@
-./build
-#./doc/paper/*.aux
-#./doc/paper/*.log
-#./doc/paper/*.out
-#./doc/paper/*.pdf
-#./doc/paper/*.toc
+# 忽略build目录
+/build/
+
+# 忽略doc/paper下的LaTeX编译产物
+/doc/paper/**/*.aux
+/doc/paper/**/*.bbl
+/doc/paper/**/*.bcf
+/doc/paper/**/*.blg
+/doc/paper/**/*.fdb_latexmk
+/doc/paper/**/*.fls
+/doc/paper/**/*.log
+/doc/paper/**/*.out
+/doc/paper/**/*.run.xml
+/doc/paper/**/*.synctex.gz
+/doc/paper/**/*.toc
+/doc/paper/**/*.lot
+/doc/paper/**/*.lof
+/doc/paper/**/*.dvi
+/doc/paper/**/*.xdv
+/doc/paper/**/*.pdf
+/doc/paper/**/*.idx
+/doc/paper/**/*.ilg
+/doc/paper/**/*.ind
+/doc/paper/**/*.acn
+/doc/paper/**/*.acr
+/doc/paper/**/*.alg
+/doc/paper/**/_minted*
+
+# 编辑器和操作系统相关文件
+.vscode/
+.idea/
+.DS_Store
+.*.swp
+*~

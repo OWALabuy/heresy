@@ -1,0 +1,6 @@
+./build
+#./doc/paper/*.aux
+#./doc/paper/*.log
+#./doc/paper/*.out
+#./doc/paper/*.pdf
+#./doc/paper/*.toc

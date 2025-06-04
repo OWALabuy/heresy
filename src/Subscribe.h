@@ -21,9 +21,9 @@ class Subscribe {
     Subscribe(int id, const std::string& name, const std::string& url);
 
     // getter和setter
-    int getId(void);
-    std::string getName(void);
-    std::string getUrl(void);
+    int getId(void) const;
+    std::string getName(void) const;
+    std::string getUrl(void) const;
     void setId(int id);
     void setName(std::string name);
     void setUrl(std::string url);

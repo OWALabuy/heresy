@@ -6,15 +6,15 @@
 Subscribe::Subscribe(int id, const std::string& name, const std::string& url) : id(id), name(name), url(url) {}
 
 // Getter 方法
-int Subscribe::getId(void) {
+int Subscribe::getId(void) const {
     return id;
 }
 
-std::string Subscribe::getName(void) {
+std::string Subscribe::getName(void) const {
     return name;
 }
 
-std::string Subscribe::getUrl(void) {
+std::string Subscribe::getUrl(void) const {
     return url;
 }
 

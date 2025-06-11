@@ -11,15 +11,25 @@
 #include "TrojanNode.h"
 #include "Hy2Node.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 CLI::CLI() : currentNodeId(-1) {
     dbManager = std::make_unique<DatabaseManager>();
     configManager = std::make_unique<ConfigManager>();
     
     // 打开数据库连接
     if (!dbManager->open()) {
-        std::cerr << "无法打开数据库，程序将退出" << std::endl;
+        fmt::print(fg(fmt::color::red), "无法打开数据库，程序将退出\n");
         exit(1);
     }
+    
+#ifdef _WIN32
+    // 在Windows平台上设置控制台为UTF-8编码
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(65001);
+#endif
 }
 
 void CLI::run() {
@@ -172,8 +182,14 @@ void CLI::addSubscribe() {
     std::string name = getUserInput("请输入订阅名称：");
     std::string url = getUserInput("请输入订阅链接：");
     
-    if (name.empty() || url.empty()) {
-        fmt::print(fg(fmt::color::red), "订阅名称和链接不能为空\n");
+    // 确保输入不为空
+    if (name.empty()) {
+        fmt::print(fg(fmt::color::red), "订阅名称不能为空\n");
+        return;
+    }
+    
+    if (url.empty()) {
+        fmt::print(fg(fmt::color::red), "订阅链接不能为空\n");
         return;
     }
     
@@ -207,10 +223,19 @@ void CLI::listSubscribes() {
     }
     
     fmt::print(fg(fmt::color::cyan), "\n===== 订阅列表 =====\n");
-    fmt::print("ID\t名称\t链接\n");
+    fmt::print("{:<5} {:<20} {:<50}\n", "ID", "名称", "链接");
     
     for (const auto& subscribe : subscribes) {
-        fmt::print("{}\t{}\t{}\n", subscribe.getId(), subscribe.getName(), subscribe.getUrl());
+        // 截断过长的链接，以防止显示问题
+        std::string url = subscribe.getUrl();
+        if (url.length() > 47) {
+            url = url.substr(0, 44) + "...";
+        }
+        
+        fmt::print("{:<5} {:<20} {:<50}\n", 
+                 subscribe.getId(), 
+                 subscribe.getName(), 
+                 url);
     }
 }
 

@@ -104,8 +104,9 @@ bool DatabaseManager::addSubscribe(const Subscribe& subscribe) {
         return false;
     }
     
-    sqlite3_bind_text(stmt, 1, subscribe.getName().c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, subscribe.getUrl().c_str(), -1, SQLITE_STATIC);
+    // 绑定参数时使用SQLITE_TRANSIENT，确保SQLite会复制字符串
+    sqlite3_bind_text(stmt, 1, subscribe.getName().c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, subscribe.getUrl().c_str(), -1, SQLITE_TRANSIENT);
     
     bool result = sqlite3_step(stmt) == SQLITE_DONE;
     sqlite3_finalize(stmt);
@@ -122,8 +123,9 @@ bool DatabaseManager::updateSubscribe(const Subscribe& subscribe) {
         return false;
     }
     
-    sqlite3_bind_text(stmt, 1, subscribe.getName().c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, subscribe.getUrl().c_str(), -1, SQLITE_STATIC);
+    // 使用SQLITE_TRANSIENT确保SQLite会复制字符串
+    sqlite3_bind_text(stmt, 1, subscribe.getName().c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, subscribe.getUrl().c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(stmt, 3, subscribe.getId());
     
     bool result = sqlite3_step(stmt) == SQLITE_DONE;
@@ -164,8 +166,17 @@ std::vector<Subscribe> DatabaseManager::getAllSubscribes() {
     
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         int id = sqlite3_column_int(stmt, 0);
-        const char* name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        const char* url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        // 检查列是否为NULL
+        std::string name = "";
+        std::string url = "";
+        
+        if (sqlite3_column_text(stmt, 1) != nullptr) {
+            name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        }
+        
+        if (sqlite3_column_text(stmt, 2) != nullptr) {
+            url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        }
         
         subscribes.emplace_back(id, name, url);
     }
@@ -186,12 +197,20 @@ Subscribe DatabaseManager::getSubscribeById(int id) {
     sqlite3_bind_int(stmt, 1, id);
     
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        int id = sqlite3_column_int(stmt, 0);
-        const char* name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        const char* url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        int dbId = sqlite3_column_int(stmt, 0);
+        std::string name = "";
+        std::string url = "";
+        
+        if (sqlite3_column_text(stmt, 1) != nullptr) {
+            name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        }
+        
+        if (sqlite3_column_text(stmt, 2) != nullptr) {
+            url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        }
         
         sqlite3_finalize(stmt);
-        return Subscribe(id, name, url);
+        return Subscribe(dbId, name, url);
     }
     
     sqlite3_finalize(stmt);

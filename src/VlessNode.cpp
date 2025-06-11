@@ -17,7 +17,7 @@ VlessNode::VlessNode(std::string uuid, std::string addr, int port, std::string i
 
 VlessNode* VlessNode::parseFromUrl(const std::string& url) {
     // vless://uuid@addr:port?type=tcp&encryption=none&security=none#info
-    std::regex vlessRegex(R"(vless://([^@]+)@([^:]+):(\d+)\??([^#]*)#?(.*))");
+    std::regex vlessRegex(R"(vless://([^@]+)@([^:]+):(\d+)\??([^#]*)(?:#(.*))?)", std::regex::ECMAScript);
     std::smatch match;
 
     if (!std::regex_match(url, match, vlessRegex)) {
@@ -30,6 +30,9 @@ VlessNode* VlessNode::parseFromUrl(const std::string& url) {
     int port = std::stoi(match[3].str());
     std::string params = match[4].str();
     std::string info = match[5].str();
+
+    // URL解码info (处理中文和特殊字符)
+    info = urlDecode(info);
 
     // 使用默认值创建节点
     VlessNode* node = new VlessNode(uuid, addr, port, info);
@@ -44,6 +47,9 @@ VlessNode* VlessNode::parseFromUrl(const std::string& url) {
             if (pos != std::string::npos) {
                 std::string key = param.substr(0, pos);
                 std::string value = param.substr(pos + 1);
+                
+                // URL解码参数值
+                value = urlDecode(value);
 
                 if (key == "type") {
                     node->setType(value);
@@ -51,6 +57,28 @@ VlessNode* VlessNode::parseFromUrl(const std::string& url) {
                     node->setEncryption(value);
                 } else if (key == "security") {
                     node->setSecurity(value);
+                } else if (key == "flow") {
+                    node->setExtraParam("flow", value);
+                } else if (key == "sni") {
+                    node->setExtraParam("sni", value);
+                } else if (key == "pbk" || key == "publicKey") {
+                    node->setExtraParam("pbk", value);
+                } else if (key == "sid" || key == "shortId") {
+                    node->setExtraParam("sid", value);
+                } else if (key == "fp" || key == "fingerprint") {
+                    node->setExtraParam("fp", value);
+                } else if (key == "host") {
+                    node->setExtraParam("host", value);
+                } else if (key == "path") {
+                    node->setExtraParam("path", value);
+                } else if (key == "alpn") {
+                    node->setExtraParam("alpn", value);
+                } else if (key == "headerType") {
+                    node->setExtraParam("headerType", value);
+                } else if (key == "quicSecurity") {
+                    node->setExtraParam("quicSecurity", value);
+                } else if (key == "serviceName") {
+                    node->setExtraParam("serviceName", value);
                 } else {
                     // 存储其他参数
                     node->setExtraParam(key, value);
@@ -60,6 +88,32 @@ VlessNode* VlessNode::parseFromUrl(const std::string& url) {
     }
 
     return node;
+}
+
+// URL解码函数
+std::string VlessNode::urlDecode(const std::string& encoded) {
+    std::string result;
+    char ch;
+    int i, j, len = encoded.length();
+    
+    for (i = 0; i < len; i++) {
+        if (encoded[i] == '%') {
+            if (i + 2 < len) {
+                std::string hex = encoded.substr(i + 1, 2);
+                int value = 0;
+                std::istringstream(hex) >> std::hex >> value;
+                ch = static_cast<char>(value);
+                result += ch;
+                i += 2;
+            }
+        } else if (encoded[i] == '+') {
+            result += ' ';
+        } else {
+            result += encoded[i];
+        }
+    }
+    
+    return result;
 }
 
 std::string VlessNode::getType() const {

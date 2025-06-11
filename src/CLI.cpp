@@ -90,6 +90,7 @@ void CLI::showSubscribeMenu() {
         fmt::print("2. 列出所有订阅\n");
         fmt::print("3. 更新订阅\n");
         fmt::print("4. 删除订阅\n");
+        fmt::print("5. 编辑订阅\n");
         fmt::print("0. 返回主菜单\n");
         
         int choice = getUserInputNumber("请选择操作：");
@@ -106,6 +107,9 @@ void CLI::showSubscribeMenu() {
                 break;
             case 4:
                 deleteSubscribe();
+                break;
+            case 5:
+                editSubscribe();
                 break;
             case 0:
                 return;
@@ -223,19 +227,13 @@ void CLI::listSubscribes() {
     }
     
     fmt::print(fg(fmt::color::cyan), "\n===== 订阅列表 =====\n");
-    fmt::print("{:<5} {:<20} {:<50}\n", "ID", "名称", "链接");
+    fmt::print("{:<5} {:<20} {}\n", "ID", "名称", "链接");
     
     for (const auto& subscribe : subscribes) {
-        // 截断过长的链接，以防止显示问题
-        std::string url = subscribe.getUrl();
-        if (url.length() > 47) {
-            url = url.substr(0, 44) + "...";
-        }
-        
-        fmt::print("{:<5} {:<20} {:<50}\n", 
+        fmt::print("{:<5} {:<20} {}\n", 
                  subscribe.getId(), 
                  subscribe.getName(), 
-                 url);
+                 subscribe.getUrl());
     }
 }
 
@@ -273,6 +271,41 @@ void CLI::deleteSubscribe() {
         fmt::print(fg(fmt::color::green), "删除订阅成功\n");
     } else {
         fmt::print(fg(fmt::color::red), "删除订阅失败\n");
+    }
+}
+
+void CLI::editSubscribe() {
+    listSubscribes();
+    
+    int id = getUserInputNumber("请输入要编辑的订阅ID（0取消）：");
+    
+    if (id == 0) {
+        return;
+    }
+    
+    Subscribe subscribe = dbManager->getSubscribeById(id);
+    
+    if (subscribe.getId() == 0) {
+        fmt::print(fg(fmt::color::red), "未找到该订阅\n");
+        return;
+    }
+    
+    fmt::print("正在编辑订阅: {}\n", subscribe.getName());
+    std::string newName = getUserInput("请输入新的订阅名称：");
+    std::string newUrl = getUserInput("请输入新的订阅链接：");
+    
+    if (!newName.empty()) {
+        subscribe.setName(newName);
+    }
+    
+    if (!newUrl.empty()) {
+        subscribe.setUrl(newUrl);
+    }
+    
+    if (dbManager->updateSubscribe(subscribe)) {
+        fmt::print(fg(fmt::color::green), "更新订阅完成\n");
+    } else {
+        fmt::print(fg(fmt::color::red), "更新订阅失败\n");
     }
 }
 

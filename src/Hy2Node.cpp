@@ -10,9 +10,9 @@
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
-Hy2Node::Hy2Node(std::string auth, std::string addr, int port, std::string info,
+Hy2Node::Hy2Node(std::string uuid, std::string addr, int port, std::string info,
                  std::string sni, std::string obfs, std::string obfs_password, bool insecure)
-    : Node("hy2", auth, addr, port, info), 
+    : Node("hy2", uuid, addr, port, info), 
       sni(sni),
       obfs(obfs),
       obfs_password(obfs_password),
@@ -20,23 +20,26 @@ Hy2Node::Hy2Node(std::string auth, std::string addr, int port, std::string info,
 }
 
 Hy2Node* Hy2Node::parseFromUrl(const std::string& url) {
-    // Hysteria2链接格式：hy2://auth@server:port?sni=xxx&obfs=salamander&obfs-password=xxx#info
-    std::regex hy2Regex(R"(hy2://([^@]+)@([^:]+):(\d+)\??([^#]*)#?(.*))");
+    // hysteria2://uuid@host:port?insecure=1&sni=example.com&obfs=salamander&obfs-password=123456#info
+    std::regex hy2Regex(R"(hysteria2://([^@]+)@([^:]+):(\d+)\??([^#]*)(?:#(.*))?)", std::regex::ECMAScript);
     std::smatch match;
 
     if (!std::regex_match(url, match, hy2Regex)) {
-        std::cerr << "不是有效的Hysteria2 URL: " << url << std::endl;
+        std::cerr << "无法解析节点: " << url.substr(0, 50) << "..." << std::endl;
         return nullptr;
     }
 
-    std::string auth = match[1].str();
+    std::string uuid = match[1].str();
     std::string addr = match[2].str();
     int port = std::stoi(match[3].str());
     std::string params = match[4].str();
     std::string info = match[5].str();
 
-    // 默认值
-    std::string sni = addr;
+    // URL解码info (处理中文和特殊字符)
+    info = urlDecode(info);
+
+    // 默认设置
+    std::string sni = addr; // 默认使用地址作为SNI
     std::string obfs = "";
     std::string obfs_password = "";
     bool insecure = false;
@@ -51,6 +54,9 @@ Hy2Node* Hy2Node::parseFromUrl(const std::string& url) {
             if (pos != std::string::npos) {
                 std::string key = param.substr(0, pos);
                 std::string value = param.substr(pos + 1);
+                
+                // URL解码参数值
+                value = urlDecode(value);
 
                 if (key == "sni") {
                     sni = value;
@@ -60,15 +66,40 @@ Hy2Node* Hy2Node::parseFromUrl(const std::string& url) {
                     obfs_password = value;
                 } else if (key == "insecure") {
                     insecure = (value == "1" || value == "true");
-                } else {
-                    // 存储其他参数
                 }
             }
         }
     }
 
-    Hy2Node* node = new Hy2Node(auth, addr, port, info, sni, obfs, obfs_password, insecure);
+    // 创建节点
+    Hy2Node* node = new Hy2Node(uuid, addr, port, info, sni, obfs, obfs_password, insecure);
     return node;
+}
+
+// URL解码函数
+std::string Hy2Node::urlDecode(const std::string& encoded) {
+    std::string result;
+    char ch;
+    int i, len = encoded.length();
+    
+    for (i = 0; i < len; i++) {
+        if (encoded[i] == '%') {
+            if (i + 2 < len) {
+                std::string hex = encoded.substr(i + 1, 2);
+                int value = 0;
+                std::istringstream(hex) >> std::hex >> value;
+                ch = static_cast<char>(value);
+                result += ch;
+                i += 2;
+            }
+        } else if (encoded[i] == '+') {
+            result += ' ';
+        } else {
+            result += encoded[i];
+        }
+    }
+    
+    return result;
 }
 
 std::string Hy2Node::getSni() const {

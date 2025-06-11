@@ -15,12 +15,12 @@ TrojanNode::TrojanNode(std::string password, std::string addr, int port, std::st
 }
 
 TrojanNode* TrojanNode::parseFromUrl(const std::string& url) {
-    // Trojan链接格式：trojan://password@server:port?sni=domain.com#info
-    std::regex trojanRegex(R"(trojan://([^@]+)@([^:]+):(\d+)\??([^#]*)#?(.*))");
+    // trojan://password@host:port?sni=example.com&type=tcp#info
+    std::regex trojanRegex(R"(trojan://([^@]+)@([^:]+):(\d+)\??([^#]*)(?:#(.*))?)", std::regex::ECMAScript);
     std::smatch match;
 
     if (!std::regex_match(url, match, trojanRegex)) {
-        std::cerr << "不是有效的Trojan URL: " << url << std::endl;
+        std::cerr << "无法解析节点: " << url.substr(0, 50) << "..." << std::endl;
         return nullptr;
     }
 
@@ -30,9 +30,12 @@ TrojanNode* TrojanNode::parseFromUrl(const std::string& url) {
     std::string params = match[4].str();
     std::string info = match[5].str();
 
-    // 默认SNI使用addr
+    // URL解码info (处理中文和特殊字符)
+    info = urlDecode(info);
+
+    // 默认使用host作为SNI
     std::string sni = addr;
-    std::string type = "tcp";  // 默认tcp
+    std::string type = "tcp";
 
     // 解析参数
     if (!params.empty()) {
@@ -44,19 +47,48 @@ TrojanNode* TrojanNode::parseFromUrl(const std::string& url) {
             if (pos != std::string::npos) {
                 std::string key = param.substr(0, pos);
                 std::string value = param.substr(pos + 1);
+                
+                // URL解码参数值
+                value = urlDecode(value);
 
                 if (key == "sni") {
                     sni = value;
                 } else if (key == "type") {
                     type = value;
                 }
-                // 存储其他参数
             }
         }
     }
 
+    // 创建节点
     TrojanNode* node = new TrojanNode(password, addr, port, info, sni, type);
     return node;
+}
+
+// URL解码函数
+std::string TrojanNode::urlDecode(const std::string& encoded) {
+    std::string result;
+    char ch;
+    int i, len = encoded.length();
+    
+    for (i = 0; i < len; i++) {
+        if (encoded[i] == '%') {
+            if (i + 2 < len) {
+                std::string hex = encoded.substr(i + 1, 2);
+                int value = 0;
+                std::istringstream(hex) >> std::hex >> value;
+                ch = static_cast<char>(value);
+                result += ch;
+                i += 2;
+            }
+        } else if (encoded[i] == '+') {
+            result += ' ';
+        } else {
+            result += encoded[i];
+        }
+    }
+    
+    return result;
 }
 
 std::string TrojanNode::getSni() const {

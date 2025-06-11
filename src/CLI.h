@@ -40,6 +40,9 @@ private:
     // 删除订阅
     void deleteSubscribe();
     
+    // 编辑订阅
+    void editSubscribe();
+    
     // 列出所有节点
     void listNodes();
     

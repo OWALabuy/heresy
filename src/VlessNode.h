@@ -45,6 +45,9 @@ class VlessNode : public Node {
      */
     std::map<std::string, std::string> extra_params;
 
+    // URL解码工具函数
+    static std::string urlDecode(const std::string& encoded);
+
    public:
     // 构造函数
     VlessNode(std::string uuid, std::string addr, int port, std::string info,

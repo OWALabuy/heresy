@@ -73,7 +73,7 @@ void SubscribeManager::update(Subscribe subscribe) {
                 node = VmessNode::parseFromUrl(line);
             } else if (protocol == "trojan") {
                 node = TrojanNode::parseFromUrl(line);
-            } else if (protocol == "hy2") {
+            } else if (protocol == "hy2" || protocol == "hysteria2") {
                 node = Hy2Node::parseFromUrl(line);
             }
 

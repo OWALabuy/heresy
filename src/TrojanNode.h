@@ -20,6 +20,9 @@ class TrojanNode : public Node {
     std::string type;  // 传输方式，默认为tcp
     std::map<std::string, std::string> extra_params;
 
+    // URL解码工具函数
+    static std::string urlDecode(const std::string& encoded);
+
    public:
     // 构造函数
     TrojanNode(std::string password, std::string addr, int port, std::string info,

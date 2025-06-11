@@ -24,9 +24,12 @@ class Hy2Node : public Node {
     // 额外参数
     std::map<std::string, std::string> extra_params;
 
+    // URL解码工具函数
+    static std::string urlDecode(const std::string& encoded);
+
    public:
     // 构造函数
-    Hy2Node(std::string auth, std::string addr, int port, std::string info,
+    Hy2Node(std::string uuid, std::string addr, int port, std::string info,
            std::string sni = "", std::string obfs = "", std::string obfs_password = "", 
            bool insecure = false);
 

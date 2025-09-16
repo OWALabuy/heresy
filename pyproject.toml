@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "heresy"
+version = "0.1.0"
+description = "Xray-Core 管理 CLI（订阅、配置、进程、系统代理）"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "typer>=0.12",
+  "rich>=13",
+  "requests>=2.31",
+  "pydantic>=2.6",
+  "pyyaml>=6",
+]
+
+[project.scripts]
+heresy = "src.__main__:app"
+
+

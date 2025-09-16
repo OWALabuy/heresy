@@ -42,7 +42,7 @@ heresy
 - Windows：`subprocess.CREATE_NO_WINDOW` 启动；停止使用 `taskkill /IM xray.exe` 前先查询 PID
 - Linux：后台启动（`Popen`）；停止前用 `pidfile`/`pgrep` 精确匹配
 - 禁用拼接命令字符串：使用参数数组；校验路径与参数白名单
-- hy2 仅在当前节点协议为 `hy2` 时联动启动；停止时一并清理
+- hy2：在当前节点协议为 `hy2` 时，先生成 `~/.heresy/hy2_config.yaml` 并联动启动 hysteria2；Xray 通过本地 socks(127.0.0.1:10810) 分流至 hy2；停止时一并清理
 
 ## 4. 系统代理策略
 - Windows：优先使用 `winreg` 设置 `ProxyEnable` 与 `ProxyServer`；可选 `InternetSetOption`（pywin32）
